@@ -38,13 +38,4 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-// Contoh penggunaan untuk InternetDefinition
-const fakeEmail: string = faker.internet.email();
-const fakeUsername: string = faker.internet.userName();
-const fakeDomain: string = faker.internet.domainName();
-
-console.log(
-  `Email: ${fakeEmail}, Username: ${fakeUsername}, Domain: ${fakeDomain}`
-);
-
 init();
