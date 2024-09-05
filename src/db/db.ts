@@ -15,8 +15,8 @@ export const initDB = async (): Promise<DataSource> => {
 
   await dataSource.initialize();
   entities.forEach((entity) => console.log(`Created ${entity.name}`.blue));
-  console.log("Creating fake data...".yellow.bold);
-  for (const fun of fakeFuncs) await fun(dataSource);
+  // console.log("Creating fake data...".yellow.bold);
+  // for (const fun of fakeFuncs) await fun(dataSource);
 
   return dataSource;
 };
