@@ -32,5 +32,25 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
         return h.response(user).code(200);
       },
     },
+    {
+      method: "POST",
+      path: "/users",
+      handler: async (
+        { payload }: Request,
+        h: ResponseToolkit,
+        err?: Error
+      ) => {
+        const { firstName, lastName, birthOfDate, email, type } =
+          payload as Partial<UserEntity>;
+        const u: Partial<UserEntity> = new UserEntity(
+          firstName,
+          lastName,
+          birthOfDate,
+          email,
+          type
+        );
+        return h.response(await userRepo.save(u)).code(201);
+      },
+    },
   ];
 };
