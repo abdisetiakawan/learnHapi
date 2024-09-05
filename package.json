@@ -1,0 +1,32 @@
+{
+  "name": "learnhapi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node-dev index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@hapi/hapi": "^21.3.10",
+    "colors": "^1.4.0",
+    "faker": "^6.6.6",
+    "node-emoji": "^2.1.3",
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.0.0",
+    "@types/colors": "^1.2.1",
+    "@types/faker": "^6.6.9",
+    "@types/hapi": "^18.0.14",
+    "@types/node": "^22.5.2",
+    "@types/node-emoji": "^2.1.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
+  }
+}
