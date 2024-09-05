@@ -52,5 +52,33 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
         return h.response(await userRepo.save(u)).code(201);
       },
     },
+    {
+      method: "PATCH",
+      path: "/users/{id}",
+      handler: async (
+        { payload, params: { id } }: Request,
+        h: ResponseToolkit,
+        err?: Error
+      ) => {
+        const user = await userRepo.findOne({ where: { id: Number(id) } });
+
+        // Jika user tidak ditemukan, kembalikan 404
+        if (!user) {
+          return h.response({ message: "User not found" }).code(404);
+        }
+
+        // Perbarui setiap properti yang ada di payload
+        Object.keys(payload).forEach((key: string) => {
+          if (user.hasOwnProperty(key)) {
+            user[key] = payload[key];
+          }
+        });
+
+        // Simpan perubahan ke database menggunakan save()
+        await userRepo.save(user);
+
+        return h.response(user).code(200);
+      },
+    },
   ];
 };
