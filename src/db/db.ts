@@ -11,6 +11,8 @@ export const initDB = async (): Promise<DataSource> => {
     database: "./hapi.db",
     synchronize: true,
     entities,
+    logger: "advanced-console",
+    logging: true,
   });
 
   await dataSource.initialize();

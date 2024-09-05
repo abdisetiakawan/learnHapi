@@ -16,8 +16,21 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
     {
       method: "GET",
       path: "/users/{id}", // GET /users/1
-      handler: ({ params: { id } }: Request, h: ResponseToolkit, err?: Error) =>
-        userRepo.findOne(id),
+      handler: async (
+        { params: { id } }: Request,
+        h: ResponseToolkit,
+        err?: Error
+      ) => {
+        const user = await userRepo.findOne({
+          where: { id: Number(id) },
+        });
+
+        if (!user) {
+          return h.response({ message: "User not found" }).code(404);
+        }
+
+        return h.response(user).code(200);
+      },
     },
   ];
 };
