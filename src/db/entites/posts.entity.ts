@@ -29,7 +29,10 @@ export class PostsEntity extends SharedProp {
   @Column({ name: "user_id", nullable: false })
   userId: number;
 
-  @ManyToOne(() => UserEntity, (user: UserEntity) => user.posts)
+  @ManyToOne(() => UserEntity, (user: UserEntity) => user.posts, {
+    onDelete: "CASCADE", // Tambahkan opsi ini
+    onUpdate: "CASCADE",
+  })
   @JoinColumn({ name: "user_id" })
   user: UserEntity;
 }

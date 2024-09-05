@@ -80,5 +80,29 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
         return h.response(user).code(200);
       },
     },
+    {
+      method: "DELETE",
+      path: "/users/{id}",
+      handler: async (
+        { params: { id } }: Request,
+        h: ResponseToolkit,
+        err?: Error
+      ) => {
+        const user = await userRepo.findOne({ where: { id: Number(id) } });
+
+        // Jika user tidak ditemukan, kembalikan 404
+        if (!user) {
+          return h.response({ message: "User not found" }).code(404);
+        }
+
+        // Hapus user dan pastikan operasi selesai sebelum melanjutkan
+        await userRepo.remove(user);
+
+        // Kembalikan respons dengan data user yang dihapus
+        return h
+          .response({ message: "User deleted successfully", user })
+          .code(200);
+      },
+    },
   ];
 };
