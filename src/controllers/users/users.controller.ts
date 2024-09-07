@@ -43,9 +43,14 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
         const qp = getQuery().length === 0 ? "" : `&${getQuery()}`;
         const totalData = await userRepo.count({ where: { ...q } });
         const totalPages = Math.ceil(totalData / realTake);
+        const data = await userRepo.find(findOptions);
 
         return {
-          data: await userRepo.find(findOptions),
+          data: data.map((u: UserEntity) => {
+            delete u.password;
+            delete u.salt;
+            return u;
+          }),
           perPage: realTake,
           page: +page || 1,
           next:
@@ -74,6 +79,8 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
         const user = await userRepo.findOne({
           where: { id: Number(id) },
         });
+        delete user.password;
+        delete user.salt;
 
         if (!user) {
           return h.response({ message: "User not found" }).code(404);
@@ -111,7 +118,7 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
           birthOfDate,
           email,
           salt,
-          hashedPassword, 
+          hashedPassword,
           type
         );
 
@@ -143,6 +150,8 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
 
         // Simpan perubahan ke database menggunakan save()
         await userRepo.save(user);
+        delete user.password;
+        delete user.salt;
 
         return h.response(user).code(200);
       },
@@ -164,6 +173,8 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
 
         // Hapus user dan pastikan operasi selesai sebelum melanjutkan
         await userRepo.remove(user);
+        delete user.password;
+        delete user.salt;
 
         // Kembalikan respons dengan data user yang dihapus
         return h
