@@ -40,14 +40,19 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
         };
 
         const qp = getQuery().length === 0 ? "" : `&${getQuery()}`;
+        const totalData = await userRepo.count({ where: { ...q } });
+        const totalPages = Math.ceil(totalData / realTake);
 
         return {
           data: await userRepo.find(findOptions),
           perPage: realTake,
           page: +page || 1,
-          next: `http://localhost:3000/users?perPage=${realTake}&page=${
-            +page + 1
-          }${qp}`,
+          next:
+            +page < totalPages
+              ? `http://localhost:3000/users?perPage=${realTake}&page=${
+                  +page + 1
+                }${qp}`
+              : null,
           prev:
             +page > 1
               ? `http://localhost:3000/users?perPage=${realTake}&page=${
