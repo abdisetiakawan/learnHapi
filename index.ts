@@ -1,18 +1,10 @@
 import * as Hapi from "@hapi/hapi";
-import {
-  faker,
-  InternetDefinition,
-  Randomizer,
-  DateDefinition,
-  CommerceProductNameDefinition,
-} from "@faker-js/faker";
 import { Server, ResponseToolkit, Request } from "@hapi/hapi";
 import "colors";
 import { get } from "node-emoji";
 import { initDB } from "./src/db";
 import { userController } from "./src/controllers";
 import { DataSource } from "typeorm";
-import { log } from "console";
 const init = async () => {
   const server: Server = Hapi.server({
     port: 3000,
@@ -29,7 +21,7 @@ const init = async () => {
 
   const con: DataSource = await initDB();
   console.log(get("dvd"), "DB init => done!", get("tada"));
-  
+
   server.route(userController(con));
 
   await server.start().then(() => {

@@ -2,7 +2,6 @@ import { faker } from "@faker-js/faker";
 import { Repository, DataSource } from "typeorm";
 import { PostsEntity, UserEntity } from "../db/entites";
 import "colors";
-import { get } from "node-emoji";
 
 export const fakePosts = async (con: DataSource, amount: number = 50) => {
   const postRepo: Repository<PostsEntity> = con.getRepository(PostsEntity);

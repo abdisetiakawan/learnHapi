@@ -1,5 +1,6 @@
 import { Repository, DataSource } from "typeorm";
 import { UserEntity } from "../../db/entites";
+import * as bcrypt from "bcrypt";
 import { ResponseToolkit, ServerRoute, Request } from "@hapi/hapi";
 
 export const userController = (con: DataSource): Array<ServerRoute> => {
@@ -89,15 +90,32 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
         h: ResponseToolkit,
         err?: Error
       ) => {
-        const { firstName, lastName, birthOfDate, email, type } =
+        const { firstName, lastName, birthOfDate, email, password, type } =
           payload as Partial<UserEntity>;
+
+        // Validasi apakah password ada di payload
+        if (!password) {
+          return h.response({ message: "Password is required" }).code(400);
+        }
+
+        // Menghasilkan salt
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Membuat objek UserEntity
         const u: Partial<UserEntity> = new UserEntity(
           firstName,
           lastName,
           birthOfDate,
           email,
+          salt,
+          hashedPassword, 
           type
         );
+
+        // Menyimpan user ke dalam database
         return h.response(await userRepo.save(u)).code(201);
       },
     },

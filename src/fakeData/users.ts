@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { Condition, Repository, DataSource } from "typeorm";
 import { UserEntity, UserType } from "../db/entites/users.entity";
 import "colors";
+import {genSalt, hash} from 'bcrypt'
 import { get } from "node-emoji";
 
 export const fakeUsers = async (con: DataSource, amount: number = 10) => {
@@ -12,11 +13,15 @@ export const fakeUsers = async (con: DataSource, amount: number = 10) => {
     const birthOfDate = faker.date.birthdate();
     const email = faker.internet.email();
     const type: UserType = faker.helpers.arrayElement(["admin", "user"]);
+    const salt = await genSalt(10);
+    const password = await hash(faker.internet.password(), salt);
     const u: Partial<UserEntity> = new UserEntity(
       firstName,
       lastName,
       birthOfDate,
       email,
+      salt,
+      password,
       type
     );
     await userRepo.save<Partial<UserEntity>>(u);
