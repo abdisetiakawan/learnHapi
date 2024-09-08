@@ -4,6 +4,8 @@ import { genSalt, hash } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import * as Joi from "joi";
 import { ServerRoute, Request, ResponseToolkit } from "@hapi/hapi";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export const authController = (con: DataSource): Array<ServerRoute> => {
   const userRepo: Repository<UserEntity> = con.getRepository(UserEntity);
@@ -15,7 +17,10 @@ export const authController = (con: DataSource): Array<ServerRoute> => {
         { auth: { credentials } }: Request,
         h: ResponseToolkit
       ) => {
-        return {...credentials, accessToken: sign({ ...credentials }, "secretKeyharusnyadienv")};
+        return {
+          ...credentials,
+          accessToken: sign({ ...credentials }, process.env.JWT_SECRET),
+        };
       },
       options: {
         auth: {
