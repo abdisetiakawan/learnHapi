@@ -93,6 +93,11 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
 
         return h.response(user).code(200);
       },
+      options: {
+        auth: {
+          strategy: "jwt",
+        },
+      },
     },
     {
       method: "POST",
@@ -160,6 +165,11 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
 
         return h.response(user).code(200);
       },
+      options: {
+        auth: {
+          strategy: "jwt",
+        },
+      },
     },
     {
       method: "DELETE",
@@ -185,6 +195,11 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
         return h
           .response({ message: "User deleted successfully", user })
           .code(200);
+      },
+      options: {
+        auth: {
+          strategy: "jwt",
+        },
       },
     },
   ];
