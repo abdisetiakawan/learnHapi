@@ -12,7 +12,7 @@ export const authController = (con: DataSource): Array<ServerRoute> => {
       method: "POST",
       path: "/login",
       handler: async (
-        { payload, auth: { credentials } }: Request,
+        { auth: { credentials } }: Request,
         h: ResponseToolkit
       ) => {
         return {...credentials, accessToken: sign({ ...credentials }, "secretKeyharusnyadienv")};

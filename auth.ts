@@ -14,7 +14,7 @@ export const validateJWT = (con: DataSource) => {
       where: { id },
     });
     if (!user) return { isValid: false };
-    return { isValid: true };
+    return { isValid: true, credentials: user };
   };
 };
 
@@ -32,7 +32,10 @@ export const validateBasic = (con: DataSource) => {
     if (!user) {
       return { credentials: null, isValid: false };
     }
-    const isValid = (await compare(password, user.salt)) === user.password;
+    const isValid = await compare(password, user.password);
+    if (!isValid) {
+      return { credentials: null, isValid: false };
+    }
     delete user.password;
     delete user.salt;
 
