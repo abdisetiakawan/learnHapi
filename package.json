@@ -30,6 +30,7 @@
     "@types/colors": "^1.2.1",
     "@types/faker": "^6.6.9",
     "@types/hapi": "^18.0.14",
+    "@types/hapi__basic": "^5.1.6",
     "@types/hapi__joi": "^17.1.14",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^22.5.2",
