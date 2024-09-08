@@ -20,6 +20,11 @@ const init = async () => {
   });
 
   const con: DataSource = await initDB();
+  await server.register(require("hapi-auth-jwt2"));
+  await server.register(require("@hapi/basic"));
+  server.auth.strategy("simple", "basic", {
+    validate: "",
+  });
   console.log(get("dvd"), "DB init => done!", get("tada"));
 
   server.route([
