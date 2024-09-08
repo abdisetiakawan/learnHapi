@@ -10,6 +10,21 @@ export const authController = (con: DataSource): Array<ServerRoute> => {
   return [
     {
       method: "POST",
+      path: "/login",
+      handler: async (
+        { payload, auth: { credentials } }: Request,
+        h: ResponseToolkit
+      ) => {
+        return {...credentials, accessToken: sign({ ...credentials }, "secretKeyharusnyadienv")};
+      },
+      options: {
+        auth: {
+          strategy: "simple",
+        },
+      },
+    },
+    {
+      method: "POST",
       path: "/register",
       handler: async ({ payload }: Request, h: ResponseToolkit) => {
         const { firstName, lastName, email, password, birthOfDate, type } =

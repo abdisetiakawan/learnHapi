@@ -67,6 +67,11 @@ export const userController = (con: DataSource): Array<ServerRoute> => {
               : null, // Tidak memberikan link jika di page pertama
         };
       },
+      options: {
+        auth: {
+          strategy: "jwt",
+        },
+      },
     },
     {
       method: "GET",

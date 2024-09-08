@@ -5,6 +5,7 @@ import { get } from "node-emoji";
 import { initDB } from "./src/db";
 import { userController, authController } from "./src/controllers";
 import { DataSource } from "typeorm";
+import { validateBasic, validateJWT } from "./auth";
 const init = async () => {
   const server: Server = Hapi.server({
     port: 3000,
@@ -23,7 +24,11 @@ const init = async () => {
   await server.register(require("hapi-auth-jwt2"));
   await server.register(require("@hapi/basic"));
   server.auth.strategy("simple", "basic", {
-    validate: "",
+    validate: validateBasic(con),
+  });
+  server.auth.strategy("jwt", "jwt", {
+    key: "secretKeyharusnyadienv",
+    validate: validateJWT(con),
   });
   console.log(get("dvd"), "DB init => done!", get("tada"));
 
