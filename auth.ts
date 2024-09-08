@@ -1,5 +1,5 @@
 import { Repository, DataSource } from "typeorm";
-import { ResponseToolkit, Request } from "@hapi/hapi";
+import { ResponseToolkit, Request, AuthCredentials } from "@hapi/hapi";
 import { UserEntity } from "./src/db/entites";
 import { compare } from "bcrypt";
 
@@ -14,7 +14,8 @@ export const validateJWT = (con: DataSource) => {
       where: { id },
     });
     if (!user) return { isValid: false };
-    return { isValid: true, credentials: user };
+    const cred = { user } as AuthCredentials;
+    return { isValid: true, credentials: cred };
   };
 };
 
