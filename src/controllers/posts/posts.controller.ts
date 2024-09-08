@@ -24,7 +24,9 @@ export const postsController = (con: DataSource): Array<ServerRoute> => {
           body,
           user as UserEntity
         );
-        return await postRepo.save<Partial<PostsEntity>>(p);
+        const postRes =  await postRepo.save<Partial<PostsEntity>>(p);
+        delete postRes.user;
+        return postRes;
       },
       options: {
         auth: {
