@@ -14,8 +14,12 @@ export const fakePosts = async (con: DataSource, amount: number = 50) => {
       const body = faker.lorem.paragraph();
       const title2 = faker.lorem.sentence();
       const body2 = faker.lorem.paragraph();
-      const post: Partial<PostsEntity> = new PostsEntity(title, body, user);
-      const post2: Partial<PostsEntity> = new PostsEntity(title2, body2, user);
+      const post: Partial<PostsEntity> = new PostsEntity(title, body, user.id);
+      const post2: Partial<PostsEntity> = new PostsEntity(
+        title2,
+        body2,
+        user.id
+      );
 
       await postRepo.save<Partial<PostsEntity>>(post);
       await postRepo.save<Partial<PostsEntity>>(post2);
