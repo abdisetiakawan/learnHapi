@@ -96,12 +96,15 @@ src/
 │   │   └── posts.controller.ts
 │   └── users/
 │       └── users.controller.ts
+│   └── index.ts/
 ├── db/
 │   ├── entities/
+│   │   ├── index.ts
 │   │   ├── posts.entity.ts
 │   │   ├── sharedProp.entity.ts
 │   │   └── users.entity.ts
 │   └── db.ts
+│   └── index.ts
 ├── fakeData/
 │   ├── index.ts
 │   ├── posts.ts
