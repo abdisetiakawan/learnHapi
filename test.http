@@ -1,0 +1,81 @@
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJKb2huIiwibGFzdE5hbWUiOiJEb2VyIiwiYmlydGhPZkRhdGUiOiIxOTkwLTA1LTE1VDAwOjAwOjAwLjAwMFoiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwidHlwZSI6ImFkbWluIiwiY3JlYXRlZEF0IjoiMjAyNC0wOS0yNlQwNToxNzozNS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyNC0wOS0yNlQwNToxNzozNS4wMDBaIiwiaWQiOjEyLCJpYXQiOjE3MjczMjc4NjN9.NkdL_VA5lwL0_-tCyMpjWzF1Z9ABkF_z4AMsT_0kTWU
+
+### Register User
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doer",
+  "email": "john.doe@example.com",
+  "password": "Password123!",
+  "birthOfDate": "1990-05-15",
+  "type": "admin"
+}
+
+###
+
+### Login User
+POST http://localhost:3000/login
+Content-Type: application/json
+Authorization: Basic john.doe@example.com:Password123!
+
+###
+
+### Get All Users (Requires JWT Auth)
+GET http://localhost:3000/users
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Get User by ID (Requires JWT Auth)
+GET http://localhost:3000/users/1
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Create New User (Requires JWT Auth)
+POST http://localhost:3000/users
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane.smith@example.com",
+  "password": "Password123!",
+  "birthOfDate": "1995-07-25",
+  "type": "user"
+}
+
+###
+
+### Update User by ID (Requires JWT Auth)
+PATCH http://localhost:3000/users/1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "firstName": "John Updated",
+  "lastName": "Doe Updated"
+}
+
+###
+
+### Delete User by ID (Requires JWT Auth)
+DELETE http://localhost:3000/users/1
+Authorization: Bearer {{accessToken}}
+
+###
+
+### Create New Post (Requires JWT Auth)
+POST http://localhost:3000/posts
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "First Post",
+  "body": "This is the body of the first post."
+}
+
+###

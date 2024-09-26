@@ -5,6 +5,7 @@ import { sign } from "jsonwebtoken";
 import * as Joi from "joi";
 import { ServerRoute, Request, ResponseToolkit } from "@hapi/hapi";
 import * as dotenv from "dotenv";
+import { log } from "console";
 dotenv.config();
 
 export const authController = (con: DataSource): Array<ServerRoute> => {
@@ -19,7 +20,7 @@ export const authController = (con: DataSource): Array<ServerRoute> => {
       ) => {
         return {
           ...credentials,
-          accessToken: sign({ ...credentials }, process.env.JWT_SECRET),
+          accessToken: sign({ ...credentials }, 'secretKeyharusnyadienv'),
         };
       },
       options: {
@@ -34,6 +35,11 @@ export const authController = (con: DataSource): Array<ServerRoute> => {
       handler: async ({ payload }: Request, h: ResponseToolkit) => {
         const { firstName, lastName, email, password, birthOfDate, type } =
           payload as Partial<UserEntity>;
+
+        const isEmailExist = await userRepo.findOne({ where: { email } });
+        if (isEmailExist) {
+          return h.response({ message: "Email already exist" }).code(400);
+        }
 
         const salt = await genSalt(10);
         const hashedPassword = await hash(password, salt);
@@ -62,7 +68,7 @@ export const authController = (con: DataSource): Array<ServerRoute> => {
         validate: {
           payload: Joi.object({
             firstName: Joi.string().required().min(4).max(255),
-            lastName: Joi.string().required().min(4).max(255),
+            lastName: Joi.string().required().min(3).max(255),
             email: Joi.string().email().required().email(),
             password: Joi.string()
               .pattern(
